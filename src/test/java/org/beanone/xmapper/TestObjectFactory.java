@@ -32,7 +32,6 @@ public class TestObjectFactory {
 		this.sourceBean.setStrVal("string1");
 		this.sourceBean.setFrom(new TestSourceBean());
 
-		System.out.println("+++++++++" + this.sourceBean.getFrom());
 		this.attributeMap = this.flattenerTool.flat(this.sourceBean);
 
 		this.templateObject = new TestTargetBean();

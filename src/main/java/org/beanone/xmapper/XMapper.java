@@ -47,7 +47,6 @@ public class XMapper<F, T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T map(F bean) {
-		System.out.println("*******" + bean);
 		final Map<String, String> attributeMap = getFlattenerTool().flat(bean);
 		final XMapperContext context = new XMapperContext(getConfiguration(),
 		        attributeMap, getTemplate());
