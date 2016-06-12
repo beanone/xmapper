@@ -3,7 +3,7 @@ package org.beanone.xmapper;
 import java.util.Properties;
 
 /**
- * Holder class for all configuration for a {@link XMapper}.
+ * Holder configuration data for a {@link XMapper}.
  *
  * @author Hongyan Li
  */
