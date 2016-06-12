@@ -20,6 +20,16 @@ public class XMapper<F, T> {
 	private final FlattenerTool flattenerTool;
 	private final Map<String, String> template = new HashMap<>();
 
+	/**
+	 * Construct a new instance of this.
+	 *
+	 * @param flattenerTool
+	 *            the FlattenerTool to flatten beans.
+	 * @param configuration
+	 *            the {@link XMapperConfiguration} for the XMapper.
+	 * @param templateObject
+	 *            the target bean type template object.
+	 */
 	public XMapper(FlattenerTool flattenerTool,
 	        XMapperConfiguration configuration, T templateObject) {
 		this.flattenerTool = flattenerTool;
@@ -27,20 +37,28 @@ public class XMapper<F, T> {
 		getTemplate().putAll(flattenerTool.flat(templateObject));
 	}
 
+	/**
+	 * Maps the passed in source type bean to the target type bean this XMapper
+	 * supports.
+	 *
+	 * @param bean
+	 *            a source type bean instance.
+	 * @return a target type bean instance that the passed in bean maps to.
+	 */
 	@SuppressWarnings("unchecked")
 	public T map(F bean) {
+		System.out.println("*******" + bean);
 		final Map<String, String> attributeMap = getFlattenerTool().flat(bean);
 		final XMapperContext context = new XMapperContext(getConfiguration(),
 		        attributeMap, getTemplate());
 
 		attributeMap.forEach((k, v) -> {
-			final KeyMapper keyMapper = new KeyMapper(
-		            getConfiguration().getConfiguration());
-			context.setKeyMapper(keyMapper);
-			final String keyConfig = keyMapper.calculateKeyConfig(k);
-			final AttributeHandler handler = getConfiguration()
-		            .getAttributeHandler(keyConfig);
-			handler.execute(context, k, v);
+			if (k.indexOf("#") < 0) {
+				context.setKeyMapper(getConfiguration().getKeyMapper(), k);
+				final AttributeHandler handler = getConfiguration()
+		                .getAttributeHandler(context.getKeyConfig());
+				handler.execute(context, k, v);
+			}
 		});
 
 		final Map<String, String> resultAttributeMap = context
@@ -49,14 +67,14 @@ public class XMapper<F, T> {
 	}
 
 	private XMapperConfiguration getConfiguration() {
-		return configuration;
+		return this.configuration;
 	}
 
 	private FlattenerTool getFlattenerTool() {
-		return flattenerTool;
+		return this.flattenerTool;
 	}
 
 	private Map<String, String> getTemplate() {
-		return template;
+		return this.template;
 	}
 }

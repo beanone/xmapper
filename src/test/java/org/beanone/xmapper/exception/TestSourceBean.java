@@ -4,6 +4,11 @@ public class TestSourceBean {
 	private String strVal = "string";
 	private int intVal = 10;
 	private TestSourceBean from;
+	private TestSourceBean another;
+
+	public TestSourceBean getAnother() {
+		return another;
+	}
 
 	public TestSourceBean getFrom() {
 		return from;
@@ -15,6 +20,10 @@ public class TestSourceBean {
 
 	public String getStrVal() {
 		return strVal;
+	}
+
+	public void setAnother(TestSourceBean another) {
+		this.another = another;
 	}
 
 	public void setFrom(TestSourceBean from) {

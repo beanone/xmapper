@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public class AttributeHandlerRegistry {
 	private final Map<Object, AttributeHandler> handlerMap = new HashMap<>();
-	private final AttributeHandler defaultAttributeHandler = new DefaultAttributeHandler();
 
 	/**
 	 * Retrieves the {@link AttributeHandler} for the passed in class.
@@ -22,9 +21,9 @@ public class AttributeHandlerRegistry {
 	 */
 	public AttributeHandler getAttributeHandler(Object handlerKey) {
 		if (handlerKey == null) {
-			return defaultAttributeHandler;
+			throw new IllegalArgumentException("The handlerKey is null");
 		}
-		return handlerMap.get(handlerKey);
+		return this.handlerMap.get(handlerKey);
 	}
 
 	/**
@@ -37,6 +36,6 @@ public class AttributeHandlerRegistry {
 	 *            an {@link AttributeHandler}.
 	 */
 	public void register(Object handlerKey, AttributeHandler handler) {
-		handlerMap.put(handlerKey, handler);
+		this.handlerMap.put(handlerKey, handler);
 	}
 }

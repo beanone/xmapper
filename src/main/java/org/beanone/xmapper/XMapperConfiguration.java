@@ -10,8 +10,8 @@ import java.util.Properties;
 public class XMapperConfiguration {
 	private final AttributeHandlerRegistry handlerRegistry;
 	private final Properties configuration;
-	private final AttributeHandler doNothingAttributeHandler = new DoNothingAttributeHandler();
 	private final AttributeHandler defaultAttributeHandler = new DefaultAttributeHandler();
+	private final KeyMapper keyMapper;
 
 	/**
 	 * Constructs a new instance of this.
@@ -23,7 +23,12 @@ public class XMapperConfiguration {
 	 */
 	public XMapperConfiguration(Properties configuration,
 	        AttributeHandlerRegistry handlerRegistry) {
+		if (configuration == null || handlerRegistry == null) {
+			throw new IllegalArgumentException(
+			        "The configuration or handlerRegistry is null!");
+		}
 		this.configuration = configuration;
+		this.keyMapper = new KeyMapper(configuration);
 		this.handlerRegistry = handlerRegistry;
 	}
 
@@ -31,18 +36,16 @@ public class XMapperConfiguration {
 	 * Retrieves the AttributeHandler for the passed in keyConfig.
 	 *
 	 * @param keyConfig
-	 *            a String in the form <key>:<handlerKey> where <key> is the
-	 *            target attribute key and <handlerKey> is the unique key that
-	 *            identifies the {@link AttributeHandler}.
+	 *            the attribute key configuration.
 	 * @return an {@link AttributeHandler}. Never null.
 	 */
 	public AttributeHandler getAttributeHandler(String keyConfig) {
 		if (keyConfig == null) {
-			return doNothingAttributeHandler;
+			throw new IllegalArgumentException("The keyConfig is null!");
 		}
 		final int index = keyConfig.indexOf(':');
 		if (index == -1) {
-			return defaultAttributeHandler;
+			return this.defaultAttributeHandler;
 		} else {
 			final String handlerKey = keyConfig.substring(index + 1).trim();
 			final AttributeHandler returns = getHandlerRegistry()
@@ -56,10 +59,14 @@ public class XMapperConfiguration {
 	}
 
 	public Properties getConfiguration() {
-		return configuration;
+		return this.configuration;
 	}
 
 	public AttributeHandlerRegistry getHandlerRegistry() {
-		return handlerRegistry;
+		return this.handlerRegistry;
+	}
+
+	public KeyMapper getKeyMapper() {
+		return this.keyMapper;
 	}
 }
