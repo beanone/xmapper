@@ -120,8 +120,9 @@ public class ObjectMatchCollector<F, T> {
 	public ObjectMatchCollector<F, T> newSession(final String matchTypeKey,
 	        BiPredicate<String, Object> criteria) {
 		endSession();
-		this.builder.findAllBy(criteria).forEach(match -> this.objectHolderMap
-		        .put(matchTypeKey, new ObjectMatchHolder(matchTypeKey, match)));
+		this.builder.findAllBy(criteria).forEach(
+		        match -> this.objectHolderMap.put(match.getMappingKey(),
+		                new ObjectMatchHolder(matchTypeKey, match)));
 		return this;
 	}
 }

@@ -42,8 +42,14 @@ public class XMapperUtils {
 		final Map<String, String> objectAttributesMap = new HashMap<>();
 		objectAttributesMap.put(FlattenerContants.CTYPE_SUFFIX,
 		        attributesMap.get(classKey));
-		attributesMap.forEach((k, v) -> objectAttributesMap
-		        .put(k.substring(start), attributesMap.get(k)));
+		final String prefix = classKey.substring(0, start - 1)
+		        + FlattenerContants.ATTRIBUTE_SEPARATE;
+		attributesMap.forEach((k, v) -> {
+			if (k.startsWith(prefix)) {
+				objectAttributesMap.put(k.substring(start),
+		                attributesMap.get(k));
+			}
+		});
 
 		return this.flattenerTool.unflat(objectAttributesMap);
 	}

@@ -10,7 +10,11 @@ import org.beanone.flattener.FlattenerContants;
 import org.beanone.flattener.FlattenerTool;
 
 /**
- * A build for objects to support flexible object mapping.
+ * A highly extensible and sophisticated builder for objects to support very
+ * flexible object mapping. This can be used together with XMapper to build
+ * sophisticated object mapping, where the complex mapping logic is handled by
+ * this in building the bean template, and then using XMapper to handle the
+ * simpler mapping with configuration, passing in the template built.
  *
  * @author Hongyan Li
  *
@@ -39,6 +43,10 @@ public class XObjectBuilder<F, T> {
 	 */
 	public XObjectBuilder(FlattenerTool flattenerTool, T templateObject,
 	        F bean) {
+		if (flattenerTool == null || templateObject == null || bean == null) {
+			throw new IllegalArgumentException(
+			        "One of the parameters passed into the constructor is null!");
+		}
 		this.fromBean = bean;
 		this.flattenerTool = flattenerTool;
 		this.attributesMap = flattenerTool.flat(this.fromBean);
@@ -68,7 +76,7 @@ public class XObjectBuilder<F, T> {
 	 *
 	 * @return the target bean built.
 	 */
-	public T finishGet() {
+	public T finishAndGet() {
 		this.objectCache.clear();
 		return this.toBean;
 	}
@@ -111,7 +119,7 @@ public class XObjectBuilder<F, T> {
 	}
 
 	private Object getValue(String v) {
-		return this.flattenerTool.parsePrimitive(v);
+		return v.indexOf(',') < 0 ? v : this.flattenerTool.parsePrimitive(v);
 	}
 
 	/**

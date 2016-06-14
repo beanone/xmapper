@@ -2,24 +2,31 @@ package org.beanone.xmapper.exception;
 
 public class TestSourceBean {
 	private String strVal = "string";
+	private String strAnotherVal;
 	private int intVal = 10;
+
 	private TestSourceBean from;
+
 	private TestSourceBean another;
 
 	public TestSourceBean getAnother() {
-		return another;
+		return this.another;
 	}
 
 	public TestSourceBean getFrom() {
-		return from;
+		return this.from;
 	}
 
 	public int getIntVal() {
-		return intVal;
+		return this.intVal;
+	}
+
+	public String getStrAnotherVal() {
+		return this.strAnotherVal;
 	}
 
 	public String getStrVal() {
-		return strVal;
+		return this.strVal;
 	}
 
 	public void setAnother(TestSourceBean another) {
@@ -32,6 +39,10 @@ public class TestSourceBean {
 
 	public void setIntVal(int intVal) {
 		this.intVal = intVal;
+	}
+
+	public void setStrAnotherVal(String strAnotherVal) {
+		this.strAnotherVal = strAnotherVal;
 	}
 
 	public void setStrVal(String strVal) {

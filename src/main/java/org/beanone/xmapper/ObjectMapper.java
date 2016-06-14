@@ -17,11 +17,12 @@ public interface ObjectMapper<F, T> {
 	 *
 	 * @param fromBean
 	 *            the source bean instance.
-	 * @param fromChild
-	 *            the child attribute of the source bean instance that this
-	 *            method is focused on to map.
+	 * @param matchedObjectHolder
+	 *            an {@link ObjectMatchHolder} that contains the child attribute
+	 *            of the source bean instance that this method is focused on to
+	 *            map.
 	 * @param toBean
 	 *            the target bean instance.
 	 */
-	void map(F fromBean, Object fromChild, T toBean);
+	void map(F fromBean, ObjectMatchHolder matchedObjectHolder, T toBean);
 }
