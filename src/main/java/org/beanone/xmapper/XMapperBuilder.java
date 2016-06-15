@@ -1,5 +1,8 @@
 package org.beanone.xmapper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.beanone.flattener.FlattenerTool;
 
 /**
@@ -16,6 +19,8 @@ public class XMapperBuilder<F, T> {
 	private final AttributeHandlerRegistry handlerRegistry = new AttributeHandlerRegistry();
 	private final FlattenerTool flattenerTool = new FlattenerTool();
 	private T templateObject;
+	private final Map<String, String> attributesMap = new HashMap<>();
+
 	private XMapperConfiguration configuration;
 
 	/**
@@ -25,7 +30,7 @@ public class XMapperBuilder<F, T> {
 	 *            the callback to initialize the {@link XMapper}.
 	 */
 	public XMapperBuilder(XMapperInitializer initializer) {
-		initializer.init(flattenerTool, handlerRegistry);
+		initializer.init(this.flattenerTool, this.handlerRegistry);
 	}
 
 	/**
@@ -34,12 +39,18 @@ public class XMapperBuilder<F, T> {
 	 * @return a new XMapper.
 	 */
 	public XMapper<F, T> buildMapper() {
-		if (configuration == null || templateObject == null) {
+		if (this.configuration == null || this.templateObject == null) {
 			throw new IllegalStateException(
 			        "Either the configuration or the templateObject is not yet defined!");
 		}
 
-		return new XMapper<>(flattenerTool, configuration, templateObject);
+		return new XMapper<>(this.flattenerTool, this.configuration,
+		        this.templateObject);
+	}
+
+	public MatchingStrategy<F, T> buildTemplate(String matchTypeKey,
+	        Criteria criteria) {
+		return new MatchingStrategy<>(this, matchTypeKey, criteria);
 	}
 
 	/**
@@ -64,5 +75,18 @@ public class XMapperBuilder<F, T> {
 	public XMapperBuilder<F, T> withTemplateObject(T templateObject) {
 		this.templateObject = templateObject;
 		return this;
+	}
+
+	FlattenerTool getFlattenerTool() {
+		return this.flattenerTool;
+	}
+
+	void setAttributesMap(Map<String, String> map) {
+		this.attributesMap.clear();
+		this.attributesMap.putAll(map);
+	}
+
+	void setTemplateObject(T templateObject) {
+		this.templateObject = templateObject;
 	}
 }

@@ -26,4 +26,19 @@ public class XMapperUtilsTest {
 		Assert.assertNull(tsb.getFrom());
 	}
 
+	@Test
+	public void testMerge() {
+		Assert.assertEquals("I,2", XMapperUtils.merge("I,1", "S,2"));
+		Assert.assertEquals("AAA", XMapperUtils.merge("AAA", "BBB"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testMergeTemplateValueNotPrimitive() {
+		XMapperUtils.merge("AAA", "S,2");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testMergeValueNotPrimitive() {
+		XMapperUtils.merge("I,1", "AAA");
+	}
 }

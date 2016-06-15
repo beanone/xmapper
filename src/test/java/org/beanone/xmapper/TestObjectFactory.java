@@ -39,6 +39,23 @@ public class TestObjectFactory {
 		this.template = this.flattenerTool.flat(this.templateObject);
 	}
 
+	public TestSourceBean createTestSourceBean() {
+		final TestSourceBean sourceBean = new TestSourceBean();
+		sourceBean.setIntVal(20);
+		sourceBean.setStrVal("string1");
+
+		final TestSourceBean from = new TestSourceBean();
+		from.setStrVal("test");
+		from.setIntVal(9);
+		sourceBean.setFrom(from);
+
+		final TestSourceBean another = new TestSourceBean();
+		another.setStrAnotherVal("test");
+		another.setIntVal(16);
+		sourceBean.setAnother(another);
+		return sourceBean;
+	}
+
 	public Map<String, String> getAttributeMap() {
 		return this.attributeMap;
 	}

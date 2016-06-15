@@ -13,6 +13,20 @@ import org.beanone.flattener.FlattenerTool;
  *
  */
 public class XMapperUtils {
+	public static String merge(String templateValue, String value) {
+		final int index = templateValue.indexOf(',');
+		final int index1 = value.indexOf(',');
+		if (index == -1 && index1 == -1) {
+			return templateValue;
+		} else if (index >= 0 && index1 >= 0) {
+			return templateValue.substring(0, index) + value.substring(index1);
+		} else {
+			throw new IllegalArgumentException(
+			        "Only valid values are primitive ones registered with PrimitiveValueRegistry."
+			                + " Otherwise, you should implement a custom AttributeHandler.");
+		}
+	}
+
 	private final FlattenerTool flattenerTool;
 
 	/**
