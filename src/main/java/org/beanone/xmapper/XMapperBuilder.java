@@ -11,9 +11,9 @@ import org.beanone.flattener.FlattenerTool;
  * @author Hongyan Li
  *
  * @param <F>
- *            the source attribute type.
+ *            the type of bean mapped from.
  * @param <T>
- *            the target attribute type.
+ *            the type of bean mapped to.
  */
 public class XMapperBuilder<F, T> {
 	private final AttributeHandlerRegistry handlerRegistry = new AttributeHandlerRegistry();
@@ -48,9 +48,23 @@ public class XMapperBuilder<F, T> {
 		        this.templateObject);
 	}
 
-	public MatchingStrategy<F, T> buildTemplate(String matchTypeKey,
-	        Criteria criteria) {
-		return new MatchingStrategy<>(this, matchTypeKey, criteria);
+	/**
+	 * Builds a new template object.
+	 *
+	 * @param criteria
+	 *            a criteria used to identify certain attributes of the source
+	 *            bean.
+	 * @param matchTypeKey
+	 *            a unique key used to uniquely identify the type of match so
+	 *            that different type of matches can be combined to help make
+	 *            decision.
+	 * @return an {@link ObjectTemplateBuilder} that can be used to build target
+	 *         bean template. The template can be used by the XMapper to build
+	 *         the final target bean object.
+	 */
+	public ObjectTemplateBuilder<F, T> buildTemplate(Criteria criteria,
+	        String matchTypeKey) {
+		return new ObjectTemplateBuilder<>(this, criteria, matchTypeKey);
 	}
 
 	/**
