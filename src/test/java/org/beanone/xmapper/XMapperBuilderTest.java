@@ -2,8 +2,6 @@ package org.beanone.xmapper;
 
 import java.util.Properties;
 
-import org.beanone.xmapper.exception.TestSourceBean;
-import org.beanone.xmapper.exception.TestTargetBean;
 import org.junit.Assert;
 import org.junit.Test;
 
