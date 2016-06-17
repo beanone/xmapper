@@ -3,7 +3,6 @@ package org.beanone.xmapper;
 import java.util.Map;
 
 import org.beanone.flattener.FlattenerTool;
-import org.beanone.xmapper.exception.TestSourceBean;
 import org.junit.Assert;
 import org.junit.Test;
 

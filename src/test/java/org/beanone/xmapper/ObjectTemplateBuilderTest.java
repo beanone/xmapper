@@ -2,12 +2,10 @@ package org.beanone.xmapper;
 
 import java.util.Map;
 
-import org.beanone.xmapper.exception.TestSourceBean;
-import org.beanone.xmapper.exception.TestTargetBean;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MatchingStrategyTest {
+public class ObjectTemplateBuilderTest {
 	private final XMapperBuilder<TestSourceBean, TestTargetBean> builder = new XMapperBuilder<>(
 	        (flattenerTool, handlerRegister) -> {
 		        // do nothing
@@ -17,9 +15,9 @@ public class MatchingStrategyTest {
 	@Test
 	public void testAndThatDoesNotFindMatch() {
 		final TestTargetBean result = new TestTargetBean();
-		final MatchingStrategy<TestSourceBean, TestTargetBean> strategy = new MatchingStrategy<>(
-		        this.builder, "strVal", this::criteria0);
-		strategy.and("strAnotherVal", this::criteria00, this::matcher1).execute(
+		final ObjectTemplateBuilder<TestSourceBean, TestTargetBean> strategy = new ObjectTemplateBuilder<>(
+		        this.builder, this::criteria0, "strVal");
+		strategy.and(this::criteria00, this::matcher1, "strAnotherVal").finish(
 		        this.factory.createTestSourceBean(), this::map0, result);
 		Assert.assertEquals(9, result.getIntValue());
 		Assert.assertEquals("test", result.getStrVal());
@@ -28,9 +26,9 @@ public class MatchingStrategyTest {
 	@Test
 	public void testAndThatFindsMatch() {
 		final TestTargetBean result = new TestTargetBean();
-		final MatchingStrategy<TestSourceBean, TestTargetBean> strategy = new MatchingStrategy<>(
-		        this.builder, "strVal", this::criteria0);
-		strategy.and("strAnotherVal", this::criteria00, this::matcher0).execute(
+		final ObjectTemplateBuilder<TestSourceBean, TestTargetBean> strategy = new ObjectTemplateBuilder<>(
+		        this.builder, this::criteria0, "strVal");
+		strategy.and(this::criteria00, this::matcher0, "strAnotherVal").finish(
 		        this.factory.createTestSourceBean(), this::map0, result);
 		Assert.assertEquals(25, result.getIntValue());
 		Assert.assertEquals("teststring", result.getStrVal());
@@ -39,7 +37,7 @@ public class MatchingStrategyTest {
 	@Test
 	public void testStaticExecute() {
 		final TestTargetBean result = new TestTargetBean();
-		MatchingStrategy.execute(this.builder, this::criteria1,
+		ObjectTemplateBuilder.execute(this.builder, this::criteria1,
 		        this.factory.createTestSourceBean(), this::map1, result);
 
 		Assert.assertEquals(25, result.getIntValue());
@@ -49,7 +47,7 @@ public class MatchingStrategyTest {
 	@Test
 	public void testXMapperBuilderBuildTemplate() {
 		final TestTargetBean result = new TestTargetBean();
-		this.builder.buildTemplate("1", this::criteria1).execute(
+		this.builder.buildTemplate(this::criteria1, "1").finish(
 		        this.factory.createTestSourceBean(), this::map1, result);
 
 		Assert.assertEquals(25, result.getIntValue());

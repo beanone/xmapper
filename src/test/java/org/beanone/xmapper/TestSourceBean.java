@@ -1,4 +1,4 @@
-package org.beanone.xmapper.exception;
+package org.beanone.xmapper;
 
 public class TestSourceBean {
 	private String strVal = "string";

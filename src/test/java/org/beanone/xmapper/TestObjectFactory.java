@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.beanone.flattener.FlattenerTool;
-import org.beanone.xmapper.exception.TestSourceBean;
-import org.beanone.xmapper.exception.TestTargetBean;
 
 public class TestObjectFactory {
 	private final Properties configuration;
