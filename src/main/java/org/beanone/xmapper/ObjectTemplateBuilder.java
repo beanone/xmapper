@@ -68,7 +68,7 @@ public class ObjectTemplateBuilder<F, T> {
 	 *            decision.
 	 * @return
 	 */
-	public ObjectTemplateBuilder<F, T> and(Criteria criteria,
+	public ObjectTemplateBuilder<F, T> addCriteria(Criteria criteria,
 	        ObjectMatcher<ObjectMatch> matcher, String matchTypeKey) {
 		this.callback = this.callback.and((k, v, vo, o) -> {
 			if (criteria.test(k, vo, o)) {

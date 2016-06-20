@@ -1,5 +1,6 @@
 package org.beanone.xmapper;
 
+import org.beanone.flattener.FlattenerContants;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,7 +34,8 @@ public class DefaultAttributeHandlerTest {
 		final String toKey = this.objectFactory.getMappingConfig()
 		        .getKeyMapper().calculateKeyConfig(fromKey);
 		Assert.assertNull(this.objectFactory.getTemplate().get(toKey));
-		handler.execute(context, fromKey, "from#ref");
+		handler.execute(context, fromKey,
+		        "from" + FlattenerContants.REF_SUFFIX);
 	}
 
 }
