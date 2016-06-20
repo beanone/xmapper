@@ -29,7 +29,7 @@
 		<java.source.version>1.8</java.source.version>
 		<java.target.version>1.8</java.target.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<flattener.version>1.4-SNAPSHOT</flattener.version>
+		<flattener.version>1.4</flattener.version>
 		<junit.version>4.12</junit.version>
 		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
 		<mockito.version>2.0.53-beta</mockito.version>
