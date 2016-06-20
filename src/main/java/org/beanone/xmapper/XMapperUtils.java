@@ -13,6 +13,18 @@ import org.beanone.flattener.FlattenerTool;
  *
  */
 public class XMapperUtils {
+	private final FlattenerTool flattenerTool;
+
+	/**
+	 * Construct a new instance of this.
+	 *
+	 * @param flattenerTool
+	 *            the {@link FlattenerTool} this utility is associated with
+	 */
+	public XMapperUtils(FlattenerTool flattenerTool) {
+		this.flattenerTool = flattenerTool;
+	}
+
 	public static String merge(String templateValue, String value) {
 		final int index = templateValue.indexOf(',');
 		final int index1 = value.indexOf(',');
@@ -25,18 +37,6 @@ public class XMapperUtils {
 			        "Only valid values are primitive ones registered with PrimitiveValueRegistry."
 			                + " Otherwise, you should implement a custom AttributeHandler.");
 		}
-	}
-
-	private final FlattenerTool flattenerTool;
-
-	/**
-	 * Construct a new instance of this.
-	 *
-	 * @param flattenerTool
-	 *            the {@link FlattenerTool} this utility is associated with
-	 */
-	public XMapperUtils(FlattenerTool flattenerTool) {
-		this.flattenerTool = flattenerTool;
 	}
 
 	/**
