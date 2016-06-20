@@ -3,6 +3,7 @@ package org.beanone.xmapper;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.beanone.flattener.FlattenerContants;
 import org.beanone.flattener.FlattenerTool;
 
 /**
@@ -52,7 +53,7 @@ public class XMapper<F, T> {
 		        attributeMap, getTemplate());
 
 		attributeMap.forEach((k, v) -> {
-			if (k.indexOf("#") < 0) {
+			if (k.indexOf(FlattenerContants.SUFFIX_SEPARATE) < 0) {
 				context.setKeyMapper(getConfiguration().getKeyMapper(), k);
 				final AttributeHandler handler = getConfiguration()
 		                .getAttributeHandler(context.getKeyConfig());

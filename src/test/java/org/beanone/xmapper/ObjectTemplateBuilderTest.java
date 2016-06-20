@@ -17,10 +17,11 @@ public class ObjectTemplateBuilderTest {
 		final TestTargetBean result = new TestTargetBean();
 		final ObjectTemplateBuilder<TestSourceBean, TestTargetBean> strategy = new ObjectTemplateBuilder<>(
 		        this.builder, this::criteria0, "strVal");
-		strategy.and(this::criteria00, this::matcher1, "strAnotherVal").finish(
-		        this.factory.createTestSourceBean(), this::map0, result);
-		Assert.assertEquals(9, result.getIntValue());
-		Assert.assertEquals("test", result.getStrVal());
+		strategy.addCriteria(this::criteria00, this::matcher1, "strAnotherVal")
+		        .finish(this.factory.createTestSourceBean(), this::map0,
+		                result);
+		Assert.assertEquals(16, result.getIntValue());
+		Assert.assertEquals("string", result.getStrVal());
 	}
 
 	@Test
@@ -28,10 +29,11 @@ public class ObjectTemplateBuilderTest {
 		final TestTargetBean result = new TestTargetBean();
 		final ObjectTemplateBuilder<TestSourceBean, TestTargetBean> strategy = new ObjectTemplateBuilder<>(
 		        this.builder, this::criteria0, "strVal");
-		strategy.and(this::criteria00, this::matcher0, "strAnotherVal").finish(
-		        this.factory.createTestSourceBean(), this::map0, result);
+		strategy.addCriteria(this::criteria00, this::matcher0, "strAnotherVal")
+		        .finish(this.factory.createTestSourceBean(), this::map0,
+		                result);
 		Assert.assertEquals(25, result.getIntValue());
-		Assert.assertEquals("teststring", result.getStrVal());
+		Assert.assertEquals("stringtest", result.getStrVal());
 	}
 
 	@Test
@@ -55,11 +57,11 @@ public class ObjectTemplateBuilderTest {
 	}
 
 	private boolean criteria0(String key, Object value, Object object) {
-		return key.endsWith(".strVal") && "test".equals(value);
+		return key.endsWith(".strAnotherVal") && "test".equals(value);
 	}
 
 	private boolean criteria00(String key, Object value, Object object) {
-		return key.endsWith(".strAnotherVal") && "test".equals(value);
+		return key.endsWith(".strVal") && "test".equals(value);
 	}
 
 	private boolean criteria1(String key, Object value, Object object) {
@@ -104,7 +106,7 @@ public class ObjectTemplateBuilderTest {
 
 	private ObjectMatchHolder matcher0(
 	        Map<String, ObjectMatchHolder> objectHolderMap, ObjectMatch match) {
-		return objectHolderMap.get("from.strVal");
+		return objectHolderMap.get("another.strAnotherVal");
 	}
 
 	private ObjectMatchHolder matcher1(

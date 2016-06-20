@@ -2,6 +2,7 @@ package org.beanone.xmapper;
 
 import java.util.Map;
 
+import org.beanone.flattener.FlattenerContants;
 import org.beanone.flattener.FlattenerTool;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,8 @@ public class XMapperUtilsTest {
 		final XMapperUtils utils = new XMapperUtils(tool);
 		final Map<String, String> attributesMap = tool.flat(bean);
 		attributesMap.put("from.intVal", "I,30");
-		final Object result = utils.getObject("from#1ctype", attributesMap);
+		final Object result = utils.getObject(
+		        "from" + FlattenerContants.CTYPE_SUFFIX, attributesMap);
 		Assert.assertNotNull(result);
 		Assert.assertTrue(result instanceof TestSourceBean);
 		final TestSourceBean tsb = (TestSourceBean) result;

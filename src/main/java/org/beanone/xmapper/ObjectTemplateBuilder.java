@@ -16,15 +16,8 @@ import org.beanone.flattener.api.FlattenerCallback;
  *            the type of bean mapped to.
  */
 public class ObjectTemplateBuilder<F, T> {
-	public static <F, T> void execute(XMapperBuilder<F, T> builder,
-	        Criteria criteria, F fromBean, ObjectMapper<F, T> mapper,
-	        T toBean) {
-		final ObjectTemplateBuilder<F, T> strategy = new ObjectTemplateBuilder<>(
-		        builder, criteria, "1");
-		strategy.finish(fromBean, mapper, toBean);
-	}
+	private boolean executed = false;
 
-	private final boolean executed = false;
 	private final Map<String, ObjectMatchHolder> objectHolderMap = new HashMap<>();
 	private final XMapperBuilder<F, T> builder;
 	private FlattenerCallback callback;
@@ -53,6 +46,14 @@ public class ObjectTemplateBuilder<F, T> {
 		};
 	}
 
+	public static <F, T> void execute(XMapperBuilder<F, T> builder,
+	        Criteria criteria, F fromBean, ObjectMapper<F, T> mapper,
+	        T toBean) {
+		final ObjectTemplateBuilder<F, T> strategy = new ObjectTemplateBuilder<>(
+		        builder, criteria, "1");
+		strategy.finish(fromBean, mapper, toBean);
+	}
+
 	/**
 	 * Add a criteria for another type of matches.
 	 *
@@ -68,7 +69,7 @@ public class ObjectTemplateBuilder<F, T> {
 	 *            decision.
 	 * @return
 	 */
-	public ObjectTemplateBuilder<F, T> and(Criteria criteria,
+	public ObjectTemplateBuilder<F, T> addCriteria(Criteria criteria,
 	        ObjectMatcher<ObjectMatch> matcher, String matchTypeKey) {
 		this.callback = this.callback.and((k, v, vo, o) -> {
 			if (criteria.test(k, vo, o)) {
@@ -100,6 +101,7 @@ public class ObjectTemplateBuilder<F, T> {
 		if (!this.executed) {
 			this.builder.setAttributesMap(this.builder.getFlattenerTool()
 			        .flat(fromBean, this.callback));
+			this.executed = true;
 		}
 		this.objectHolderMap.forEach((k, h) -> mapper.map(fromBean, h, toBean));
 		this.builder.setTemplateObject(toBean);
